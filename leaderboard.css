@@ -1,0 +1,20 @@
+.leaderboard {
+    font-family: monospace;
+    font-size: x-large;
+    border-spacing: 2ch 0;
+}
+
+.leaderboard-header {
+    line-height: 1em;
+}
+
+.leaderboard-gold {
+    color: gold;
+    text-shadow: 1px 1px darkgoldenrod;
+    font-weight: bold;
+}
+
+.leaderboard-silver {
+    color: silver;
+    text-shadow: 1px 1px black;
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Advent of Code Private Leaderboard</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link id="theme" rel="stylesheet" type="text/css" href="../default.css">
+    <link id="theme" rel="stylesheet" type="text/css" href="./leaderboard.css">
+    <script src="../theme.js"></script>
+    <script>setTheme("../")</script>
+    <link rel="icon" href="../media/images/favicon.png" type="image/png"
+    sizes="256x256">
+    <meta name="author" content="Martin Janů">
+    <meta name="description" content="Private leaderboard for AOC 2021.">
+</head>
+<body>
+    <header>
+        <a href="#" class="themebutton" onclick="changeTheme('../');">Dark Theme</a>
+    </header>
+    <script>setTheme("../")</script>
+    <h1>Leaderboard</h1>
+    <table class="leaderboard">
+        <tr class="leaderboard-header">
+            <th></th>
+            <th></th>
+            <th>
+                {% for row in days %}
+                {{ row }}<br>
+                {% endfor %}
+            </th>
+            <th></th>
+        </tr>
+        {% for row in table: %}
+        <tr>
+            {% for cell in row: %}
+            <td>
+                {% if loop.index0 == 2 %}
+                {% for star in cell %}{% if star == 0 %}&nbsp;{% elif star == 2 %}<span class="leaderboard-gold">*</span>{% else %}<span class="leaderboard-silver">*</span>{% endif %}{% endfor %}
+                {% else %}
+                {{ cell }}{% if loop.index0 == 0 %}){% endif %}
+                {% endif %}
+            </td>
+            {% endfor %}
+        </tr>
+	    {% endfor %}
+    </table>
+</body>
+</html>

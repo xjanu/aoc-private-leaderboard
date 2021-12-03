@@ -1,0 +1,14 @@
+
+/*
+!/.gitignore
+!/*.py
+!/*.css
+!/data
+!/media
+!/templates
+
+/data/*
+!/data/*.css
+!/data/*.json
+!/data/*.js
+!/data/request.time
