@@ -15,6 +15,8 @@
 </head>
 <body class="leaderboard">
     <header>
+        <a href="../index.html">My web</a>
+        <a href="https://adventofcode.com/2021">adventofcode.com</a>
         <a href="#" class="themebutton" onclick="changeTheme('../');">Dark Theme</a>
     </header>
     <script>setTheme("../")</script>
@@ -39,8 +41,10 @@
             <td class="right">{{ cell }}</td>
             {% elif loop.index0 == 2 %}
             <td>{% for star in cell %}{% if star == 0 %}&nbsp;{% elif star == 2 %}<span class="leaderboard-gold">*</span>{% else %}<span class="leaderboard-silver">*</span>{% endif %}{% endfor %}</td>
+            {% elif cell[1] is not none() %}
+            <td><a href={{ cell[1] }}>{{ cell[0] }}</a></td>
             {% else %}
-            <td>{{ cell }}</td>
+            <td>{{ cell[0] }}</td>
             {% endif %}
             {% endfor %}
         </tr>
