@@ -16,7 +16,7 @@ def aoc():
     table = []
     for pos in range(len(scores)):
         val = scores[pos]
-        row = [pos + 1, val["score"], val["stars"], val["name"]]
+        row = [pos + 1, val["score"], val["stars"], (val["name"], val["link"])]
         table.append(row)
 
     days = [("\u00a0" * 9 + "1111111111222222")[STARTDAY-1:],

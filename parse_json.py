@@ -40,13 +40,18 @@ def member_time(member, day, part):
     time.reverse()
     return "".join(time)
 
+def get_links():
+    with open("data/links.txt", "r") as linkfile:
+        return {line.split()[0]: line.split()[1] for line in linkfile.readlines()}
 
 def scores(members, startday=1):
     result = []
     daily_scores = day_score(members.values(), startday)
+    links = get_links()
 
     for member in members.values():
-        row = {"name": member["name"], "score": 0, "stars": []}
+        row = {"name": member["name"], "score": 0, "stars": [], "link": None}
+        row["link"] = links.get(member["id"], None)
 
         for part1, part2 in daily_scores:
             if member["id"] in part1:
