@@ -11,7 +11,7 @@ STARTDAY = 1
 @app.route('/aoc/')
 def aoc():
     get_json()
-    scores = parse("data/scores.json", startday=STARTDAY)
+    scores, daily = parse("data/scores.json", startday=STARTDAY)
 
     table = []
     for pos in range(len(scores)):
@@ -20,13 +20,13 @@ def aoc():
         table.append(row)
 
     days = [("\u00a0" * 9 + "1111111111222222")[STARTDAY-1:],
-            "1234567890123456789012345"[STARTDAY-1:]]
+             "1234567890123456789012345"[STARTDAY-1:]]
 
-    return render_template('app.html', days=days, table=table)
+    return render_template('app.html', days=days, table=table, daily=daily, startday=STARTDAY)
 
 @app.route('/aoc/leaderboard.css')
 def leaderboard():
-  return send_file("leaderboard.css")
+    return send_file("leaderboard.css")
 
 if __name__ == '__main__':
 

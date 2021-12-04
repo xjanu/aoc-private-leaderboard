@@ -13,13 +13,13 @@
     <meta name="author" content="Martin Janů">
     <meta name="description" content="Private leaderboard for AOC 2021.">
 </head>
-<body>
+<body class="leaderboard">
     <header>
         <a href="#" class="themebutton" onclick="changeTheme('../');">Dark Theme</a>
     </header>
     <script>setTheme("../")</script>
     <h1>Leaderboard</h1>
-    <table class="leaderboard">
+    <table>
         <tr class="leaderboard-header">
             <th></th>
             <th></th>
@@ -33,16 +33,42 @@
         {% for row in table: %}
         <tr>
             {% for cell in row: %}
-            <td>
-                {% if loop.index0 == 2 %}
-                {% for star in cell %}{% if star == 0 %}&nbsp;{% elif star == 2 %}<span class="leaderboard-gold">*</span>{% else %}<span class="leaderboard-silver">*</span>{% endif %}{% endfor %}
-                {% else %}
-                {{ cell }}{% if loop.index0 == 0 %}){% endif %}
+            {% if loop.index0 == 0 %}
+            <td>{{ cell }})</td>
+            {% elif loop.index0 == 1 %}
+            <td class="right">{{ cell }}</td>
+            {% elif loop.index0 == 2 %}
+            <td>{% for star in cell %}{% if star == 0 %}&nbsp;{% elif star == 2 %}<span class="leaderboard-gold">*</span>{% else %}<span class="leaderboard-silver">*</span>{% endif %}{% endfor %}</td>
+            {% else %}
+            <td>{{ cell }}</td>
+            {% endif %}
+            {% endfor %}
+        </tr>
+	    {% endfor %}
+    </table>
+    <table>
+    <h2>Daily times</h2>
+    {% for day in daily: %}
+    {% if day != [] %}
+        <tr>
+            <th>Day {{ loop.index0 + startday }}</th>
+            <th>Part One</th>
+            <th>Part Two</th>
+        </tr>
+        {% for mem in day %}
+        <tr>
+            {% for datum in mem %}
+            <td {% if loop.index != 1 %}class="right"{% endif %}>
+                {% if datum is not none() %}
+                {{ datum }}
                 {% endif %}
             </td>
             {% endfor %}
         </tr>
-	    {% endfor %}
+        {% endfor %}
+        <tr><td style="padding-bottom: 1.5em;"></td></tr>
+    {% endif %}
+    {% endfor %}
     </table>
 </body>
 </html>

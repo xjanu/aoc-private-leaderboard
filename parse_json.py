@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import json
+from datetime import datetime, timedelta
 
 def day_score(members, startday=1):
     result = []
@@ -18,11 +19,33 @@ def day_score(members, startday=1):
 
     return result
 
+def member_time(member, day, part):
+    timestamp = int(member["completion_day_level"][str(day)][str(part)]["get_star_ts"])
+    start = int(datetime(2021, 12, day).timestamp())
+    delta = timestamp - start
+    # Seconds
+    time = [f"{delta % 60:0>2}"]
+    # Minutes
+    delta //= 60
+    if delta != 0:
+        time.append(f"{delta % 60:0>2}:")
+    # Hours
+    delta //= 60
+    if delta != 0:
+        time.append(f"{delta % 60:0>2}:")
+    # Days
+    delta //= 24
+    if delta != 0:
+        time.append(f"{delta}d ")
+    time.reverse()
+    return "".join(time)
+
+
 def scores(members, startday=1):
     result = []
-    daily_scores = day_score(members, startday)
+    daily_scores = day_score(members.values(), startday)
 
-    for member in members:
+    for member in members.values():
         row = {"name": member["name"], "score": 0, "stars": []}
 
         for part1, part2 in daily_scores:
@@ -36,14 +59,34 @@ def scores(members, startday=1):
         result.append(row)
 
     result.sort(key=lambda x: x["score"], reverse=True)
-    return result
+
+    daily = []
+    for part1, part2 in daily_scores:
+        day = []
+        day_no = len(daily) + startday
+        for m_id in part2:
+            member = members[m_id]
+            day.append((member["name"],
+                        member_time(member, day_no, 1),
+                        member_time(member, day_no, 2)))
+        for m_id in part1:
+            if m_id in part2:
+                continue
+            member = members[m_id]
+            day.append((member["name"],
+                        member_time(member, day_no, 1),
+                        None))
+        daily.append(day)
+
+    print(*daily, sep="\n")
+    return result, daily
 
 def parse(filename, startday=1):
     with open(filename, "r") as fp:
         data = json.loads(fp.read())
 
     members = data["members"]
-    return scores(members.values(), startday)
+    return scores(members, startday)
 
 if __name__ == "__main__":
-    print(parse("data/scores.json"))
+    print(parse("data/scores.json", startday=1))

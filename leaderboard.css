@@ -1,6 +1,9 @@
 .leaderboard {
     font-family: monospace;
     font-size: large;
+}
+
+.leaderboard table {
     border-spacing: 2ch 0;
 }
 
@@ -17,4 +20,8 @@
 .leaderboard-silver {
     color: silver;
     text-shadow: 1px 1px black;
+}
+
+.right {
+    text-align: right;
 }
