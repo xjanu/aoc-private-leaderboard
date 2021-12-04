@@ -2,14 +2,16 @@
 
 import requests
 from datetime import datetime, timedelta
+from sys import stderr
 
 URL = "https://adventofcode.com/2021/leaderboard/private/view/{}.json"
+TIMEFILE = "data/request.time"
 
 wait = timedelta(minutes=15)
 
 def time_ok():
     try:
-        with open("data/request.time", "r") as f:
+        with open(TIMEFILE, "r") as f:
             then = datetime.fromisoformat(f.read())
         now = datetime.now()
         return then + wait < now or then > now
@@ -17,7 +19,7 @@ def time_ok():
         return True
 
 def set_time():
-    with open("data/request.time", "w") as f:
+    with open(TIMEFILE, "w") as f:
         f.write(datetime.now().isoformat())
 
 def get_secrets():
@@ -31,7 +33,11 @@ def get_json():
         return
     number, session = get_secrets()
     jar = requests.cookies.cookiejar_from_dict({"session": session})
-    response = requests.get(URL.format(number), cookies=jar)
+    try:
+        response = requests.get(URL.format(number), cookies=jar)
+    except Exception as e:
+        print(e, file=stderr)
+        return
     set_time()
     if response.ok:
         with open("data/scores.json", "w") as f:
