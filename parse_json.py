@@ -32,7 +32,7 @@ def member_time(member, day, part):
     # Hours
     delta //= 60
     if delta != 0:
-        time.append(f"{delta % 60:0>2}:")
+        time.append(f"{delta % 24:0>2}:")
     # Days
     delta //= 24
     if delta != 0:
